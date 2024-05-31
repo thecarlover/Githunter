@@ -21,7 +21,7 @@ const Main = () => {
       }}
     >
       <Header />
-      <div className="flex justify-center items-start min-h-screen pt-16">
+      <div className="flex justify-center items-start pt-16">
         <form className="max-w-lg mx-auto flex items-center w-full px-4 mt-10" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -38,7 +38,9 @@ const Main = () => {
           </button>
         </form>
       </div>
-      {searchUsername && <Repo username={searchUsername} />}
+      <div className="mt-10">
+        {searchUsername && <Repo username={searchUsername} />}
+      </div>
     </main>
   );
 };
