@@ -13,10 +13,16 @@ const Main = () => {
   };
 
   return (
-    <main className="bg-cover bg-center min-h-screen" style={{ backgroundImage: "url('https://i.pinimg.com/originals/fb/a0/ba/fba0ba2c33fde3822352fdee5fce1c9b.jpg')" }}>
+    <main
+      className="bg-cover bg-center min-h-screen"
+      style={{
+        backgroundImage: "url('https://i.pinimg.com/originals/fb/a0/ba/fba0ba2c33fde3822352fdee5fce1c9b.jpg')",
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <Header />
-      <div className="flex justify-center items-start min-h-screen pt-32">
-        <form className="max-w-lg mx-auto flex items-center w-full px-4 mt-20" onSubmit={handleSubmit}>
+      <div className="flex justify-center items-start min-h-screen pt-16">
+        <form className="max-w-lg mx-auto flex items-center w-full px-4 mt-10" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Enter username..."
