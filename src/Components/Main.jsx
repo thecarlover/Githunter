@@ -1,15 +1,27 @@
-import React from 'react';
+// src/Main.js
+import React, { useState } from 'react';
 import Header from './Header';
+import Repo from './Repo';
 
 const Main = () => {
+  const [username, setUsername] = useState('');
+  const [searchUsername, setSearchUsername] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSearchUsername(username);
+  };
+
   return (
-    <main className="bg-cover bg-center h-screen" style={{ backgroundImage: "url('https://i.pinimg.com/originals/fb/a0/ba/fba0ba2c33fde3822352fdee5fce1c9b.jpg')" }}>
+    <main className="bg-cover bg-center min-h-screen" style={{ backgroundImage: "url('https://i.pinimg.com/originals/fb/a0/ba/fba0ba2c33fde3822352fdee5fce1c9b.jpg')" }}>
       <Header />
-      <div className="flex justify-center items-start h-full pt-32">
-        <form className="max-w-lg mx-auto flex items-center w-full px-4 mt-20">
+      <div className="flex justify-center items-start min-h-screen pt-32">
+        <form className="max-w-lg mx-auto flex items-center w-full px-4 mt-20" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Enter username..."
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-full py-3 px-6 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500"
           />
           <button
@@ -20,6 +32,7 @@ const Main = () => {
           </button>
         </form>
       </div>
+      {searchUsername && <Repo username={searchUsername} />}
     </main>
   );
 };
