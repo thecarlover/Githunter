@@ -1,6 +1,6 @@
 // src/Repo.js
 import React, { useState, useEffect } from 'react';
-import { fetchUserRepos, fetchUserProfile } from './githubApi';
+import { fetchUserRepos, fetchUserProfile } from '../githubApi';
 
 const Repo = ({ username }) => {
   const [repos, setRepos] = useState([]);

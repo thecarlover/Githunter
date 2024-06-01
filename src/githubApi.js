@@ -1,7 +1,4 @@
-// src/githubApi.js
-require('dotenv').config(); 
-
-const TOKEN = process.env.GITHUB_TOKEN; 
+const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 export const fetchUserRepos = async (username) => {
   const response = await fetch(`https://api.github.com/users/${username}/repos`, {
