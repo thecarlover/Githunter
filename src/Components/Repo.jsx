@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { fetchUserRepos, fetchUserProfile } from '../githubApi';
+import { motion } from 'framer-motion';
 
 const Repo = ({ username }) => {
   const [repos, setRepos] = useState([]);
@@ -8,6 +10,7 @@ const Repo = ({ username }) => {
   const [profile, setProfile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [reposPerPage] = useState(10);
+  const repoListRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +45,9 @@ const Repo = ({ username }) => {
   const paginate = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
+      if (repoListRef.current) {
+        repoListRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -58,7 +64,12 @@ const Repo = ({ username }) => {
   }
 
   return (
-    <section className="container mx-auto py-6">
+    <motion.section
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="container mx-auto py-6"
+    >
       {/* Profile Info */}
       {profile && (
         <div className="text-center mb-6">
@@ -92,9 +103,15 @@ const Repo = ({ username }) => {
         </div>
       )}
       {/* Repositories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div ref={repoListRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentRepos.map((repo) => (
-          <div key={repo.id} className={`p-4 rounded-lg shadow-md border animate-border ${repo.private ? 'bg-yellow-200 border-yellow-500' : 'bg-white border-blue-500'}`}>
+          <motion.div
+            key={repo.id}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`p-4 rounded-lg shadow-md border animate-border ${repo.private ? 'bg-yellow-200 border-yellow-500' : 'bg-white border-blue-500'}`}
+          >
             <a
               href={repo.html_url}
               target="_blank"
@@ -109,7 +126,7 @@ const Repo = ({ username }) => {
               <span>{repo.private ? 'Private' : 'Public'}</span>
               {repo.fork && <span className="text-gray-500">Fork</span>}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       {/* Pagination */}
@@ -145,7 +162,7 @@ const Repo = ({ username }) => {
           <p className="text-3xl font-bold">{repos.length}</p>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
