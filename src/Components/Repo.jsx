@@ -107,6 +107,7 @@ const Repo = ({ username }) => {
             <div className="flex items-center justify-between text-gray-700 text-sm">
               <span>{repo.language || 'N/A'}</span>
               <span>{repo.private ? 'Private' : 'Public'}</span>
+              {repo.fork && <span className="text-gray-500">Fork</span>}
             </div>
           </div>
         ))}

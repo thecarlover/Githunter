@@ -1,0 +1,13 @@
+/* src/Components/About.css */
+.fade-appear,
+.fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-appear-active,
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
