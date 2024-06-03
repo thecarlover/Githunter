@@ -10,7 +10,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData); // Log form data
+    console.log('Form Data:', formData); 
     try {
       const contactsRef = db.ref('contacts');
       await contactsRef.push(formData);
