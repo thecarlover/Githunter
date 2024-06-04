@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { fetchUserRepos, fetchUserProfile } from '../githubApi';
+import { fetchUserRepos, fetchUserProfile, fetchUserContributions } from '../githubApi';
 import { motion } from 'framer-motion';
+import Heatmap from './Heatmap';
 
 const Repo = ({ username }) => {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [contributions, setContributions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [reposPerPage] = useState(10);
+  const [reposPerPage, setReposPerPage] = useState(10); // State to track maximum displayed repos
+  const [totalRepoCount, setTotalRepoCount] = useState(0); // State to track total repository count
   const repoListRef = useRef(null);
 
   useEffect(() => {
@@ -17,12 +19,15 @@ const Repo = ({ username }) => {
       setLoading(true);
       setError(null);
       try {
-        const [repoData, profileData] = await Promise.all([
+        const [repoData, profileData, contributionData] = await Promise.all([
           fetchUserRepos(username),
           fetchUserProfile(username),
+          fetchUserContributions(username)
         ]);
         setRepos(repoData);
         setProfile(profileData);
+        setContributions(contributionData);
+        setTotalRepoCount(repoData.length); // Update total repository count
       } catch (error) {
         setError('Error fetching data');
       } finally {
@@ -35,7 +40,6 @@ const Repo = ({ username }) => {
     }
   }, [username]);
 
-  // Pagination Logic
   const indexOfLastRepo = currentPage * reposPerPage;
   const indexOfFirstRepo = indexOfLastRepo - reposPerPage;
   const currentRepos = repos.slice(indexOfFirstRepo, indexOfLastRepo);
@@ -49,6 +53,13 @@ const Repo = ({ username }) => {
         repoListRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     }
+  };
+
+  const handleMaxRepoChange = (event) => {
+    const value = parseInt(event.target.value);
+    setReposPerPage(value);
+    // Reset pagination to first page when changing max repos per page
+    setCurrentPage(1);
   };
 
   if (loading) {
@@ -103,7 +114,7 @@ const Repo = ({ username }) => {
         </div>
       )}
       {/* Repositories */}
-      <div ref={repoListRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div ref={repoListRef} className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentRepos.map((repo) => (
           <motion.div
             key={repo.id}
@@ -129,7 +140,26 @@ const Repo = ({ username }) => {
           </motion.div>
         ))}
       </div>
-      {/* Pagination */}
+      <div className="flex justify-center mt-8">
+        <div>
+          <h3 className="text-2xl font-bold text-center mb-4 text-white">Contribution Heatmap</h3>
+          <Heatmap contributions={contributions} />
+        </div>
+      </div>
+      <div className="flex justify-center mt-4">
+        <label htmlFor="maxRepoSelect" className="mr-2">Max Repositories per Page:</label>
+        <select
+          id="maxRepoSelect"
+          value={reposPerPage}
+          onChange={handleMaxRepoChange}
+          className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+        >
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </select>
+      </div>
       <div className="flex justify-center mt-4">
         <button
           onClick={() => paginate(currentPage - 1)}
@@ -155,11 +185,10 @@ const Repo = ({ username }) => {
           Next
         </button>
       </div>
-      {/* Total Repos Section */}
       <div className="flex justify-center mt-8">
         <div className="bg-yellow-200 p-6 rounded-lg shadow-md border border-yellow-500">
           <p className="text-lg font-semibold">Total Repositories</p>
-          <p className="text-3xl font-bold">{repos.length}</p>
+          <p className="text-3xl font-bold">{totalRepoCount}</p>
         </div>
       </div>
     </motion.section>
@@ -167,3 +196,4 @@ const Repo = ({ username }) => {
 };
 
 export default Repo;
+
