@@ -8,8 +8,10 @@ Githunter is a dynamic web application designed to help users discover GitHub re
 
 - **Search GitHub Repositories and Profiles**: Easily search for GitHub repositories and user profiles.
 - **Profile and Repository Details**: View detailed information about GitHub users and their repositories.
+- **HeatMap**: A Contribution map also enhanced the profile view directly taking contribution info from github.
 - **Smooth Animations**: Enhanced user experience with framer-motion animations.
 - **Responsive Design**: Optimized for various devices using Tailwind CSS.
+
 
 ## Demo
 
