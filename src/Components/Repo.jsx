@@ -80,7 +80,6 @@ const Repo = ({ username }) => {
       transition={{ duration: 0.5 }}
       className="container mx-auto py-6"
     >
-      {/* Profile Info */}
       {profile && (
         <div className="text-center mb-6">
           <img
@@ -89,29 +88,27 @@ const Repo = ({ username }) => {
             className="rounded-full w-24 h-24 mx-auto transform transition-transform duration-300 hover:scale-150"
           />
           <h2 className="text-3xl font-extrabold mt-4 font-mono">{profile.login}'s Repositories</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-            <div className="bg-yellow-200 p-4 rounded-lg shadow-md border border-yellow-500">
-              <p className="text-lg font-semibold">Followers</p>
-              <p>{profile.followers}</p>
+          <div className="flex justify-center mt-4 space-x-4">
+            <div className="bg-blue-500 text-white p-2 rounded-full">
+              <p className="text-sm">Followers</p>
+              <p className="text-xl font-bold">{profile.followers}</p>
             </div>
-            <div className="bg-yellow-200 p-4 rounded-lg shadow-md border border-yellow-500">
-              <p className="text-lg font-semibold">Following</p>
-              <p>{profile.following}</p>
+            <div className="bg-green-500 text-white p-2 rounded-full">
+              <p className="text-sm">Following</p>
+              <p className="text-xl font-bold">{profile.following}</p>
             </div>
-            {profile.blog && (
-              <div className="bg-yellow-200 p-4 rounded-lg shadow-md border border-yellow-500">
-                <p className="text-lg font-semibold">Website</p>
-                <a href={profile.blog} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{profile.blog}</a>
-              </div>
-            )}
-            <div className="bg-yellow-500 p-4 rounded-lg shadow-md border border-yellow-500">
-              <p className="text-lg font-semibold">Member since</p>
-              <p>{new Date(profile.created_at).toLocaleDateString()}</p>
+            <div className="bg-purple-500 text-white p-2 rounded-full">
+              <p className="text-sm">Public Repos</p>
+              <p className="text-xl font-bold">{profile.public_repos}</p>
+            </div>
+            <div className="bg-yellow-500 text-white p-2 rounded-full">
+              <p className="text-sm">Public Gists</p>
+              <p className="text-xl font-bold">{profile.public_gists}</p>
             </div>
           </div>
         </div>
       )}
-      {/* Repositories */}
+
       <div ref={repoListRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentRepos.map((repo) => (
           <motion.div
@@ -185,8 +182,8 @@ const Repo = ({ username }) => {
       </div>
       <div className="flex justify-center mt-8">
         <div className="bg-yellow-200 p-6 rounded-lg shadow-md border border-yellow-500">
-          <p className="text-lg font-semibold">Total Repositories</p>
-          <p className="text-3xl font-bold">{totalRepoCount}</p>
+          <p className="text-lg font-bold mb-2">Total Repositories: {totalRepoCount}</p>
+          <p className="text-gray-600">Max Repositories per Page: {reposPerPage}</p>
         </div>
       </div>
     </motion.section>
