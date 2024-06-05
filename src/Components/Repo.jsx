@@ -10,8 +10,8 @@ const Repo = ({ username }) => {
   const [profile, setProfile] = useState(null);
   const [contributions, setContributions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [reposPerPage, setReposPerPage] = useState(10); // State to track maximum displayed repos
-  const [totalRepoCount, setTotalRepoCount] = useState(0); // State to track total repository count
+  const [reposPerPage, setReposPerPage] = useState(10);
+  const [totalRepoCount, setTotalRepoCount] = useState(0);
   const repoListRef = useRef(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Repo = ({ username }) => {
         setRepos(repoData);
         setProfile(profileData);
         setContributions(contributionData);
-        setTotalRepoCount(repoData.length); // Update total repository count
+        setTotalRepoCount(repoData.length);
       } catch (error) {
         setError('Error fetching data');
       } finally {
@@ -58,7 +58,6 @@ const Repo = ({ username }) => {
   const handleMaxRepoChange = (event) => {
     const value = parseInt(event.target.value);
     setReposPerPage(value);
-    // Reset pagination to first page when changing max repos per page
     setCurrentPage(1);
   };
 
@@ -90,7 +89,6 @@ const Repo = ({ username }) => {
             className="rounded-full w-24 h-24 mx-auto transform transition-transform duration-300 hover:scale-150"
           />
           <h2 className="text-3xl font-extrabold mt-4 font-mono">{profile.login}'s Repositories</h2>
-          {/* Profile Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
             <div className="bg-yellow-200 p-4 rounded-lg shadow-md border border-yellow-500">
               <p className="text-lg font-semibold">Followers</p>
@@ -114,7 +112,7 @@ const Repo = ({ username }) => {
         </div>
       )}
       {/* Repositories */}
-      <div ref={repoListRef} className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div ref={repoListRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentRepos.map((repo) => (
           <motion.div
             key={repo.id}
@@ -196,4 +194,3 @@ const Repo = ({ username }) => {
 };
 
 export default Repo;
-

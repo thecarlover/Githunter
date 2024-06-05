@@ -74,13 +74,33 @@ export const fetchPopularDevelopers = async (language) => {
 };
 
 export const fetchUserContributions = async (username) => {
-  const response = await fetch(`https://api.github.com/users/${username}/events`, {
-    headers: {
-      'Authorization': `token ${TOKEN}`
+  let events = [];
+  let page = 1;
+  let totalPages = 1; // Initial value
+
+  while (page <= totalPages) {
+    const response = await fetch(`https://api.github.com/users/${username}/events?page=${page}&per_page=100`, {
+      headers: {
+        'Authorization': `token ${TOKEN}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+
+    const data = await response.json();
+    events = events.concat(data);
+
+    // GitHub doesn't provide total pages for events, so we assume a reasonable number
+    if (data.length < 100) {
+      totalPages = page; // no more pages
+    } else {
+      totalPages++;
+    }
+
+    page++;
   }
-  return response.json();
+
+  return events;
 };
