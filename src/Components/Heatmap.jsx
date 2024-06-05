@@ -63,7 +63,7 @@ const Heatmap = ({ contributions }) => {
       .attr('x', (d, i) => Math.floor(i / 7) * cellSize)
       .attr('y', (d, i) => (i % 7) * cellSize)
       .attr('fill', d => colorScale(d))
-      .attr('stroke', '#fff')
+      .attr('stroke', 'black')
        // Optional: add border to cells for better visual separation
 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -73,6 +73,7 @@ const Heatmap = ({ contributions }) => {
       .attr('class', 'dayLabel')
       .attr('x', -10)
       .attr('y', (d, i) => i * cellSize + cellSize / 1.5)
+      .attr('fill','black')
       .style('text-anchor', 'end')
       .text(d => d);
 
@@ -84,7 +85,8 @@ const Heatmap = ({ contributions }) => {
       .attr('x', (d, i) => d3.timeWeek.count(d3.timeYear(new Date()), d) * cellSize)
       .attr('y', -5)
       .style('text-anchor', 'start')
-      .text(d => d3.timeFormat('%b')(d));
+      .text(d => d3.timeFormat('%b')(d))
+      .attr('fill','black');
 
   }, [contributions]);
 
